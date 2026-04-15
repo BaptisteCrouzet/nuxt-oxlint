@@ -26,18 +26,18 @@ Heavily inspired by [`@nuxt/eslint`](https://eslint.nuxt.com), but built for **O
 
 ## Requirements
 
-- Nuxt ≥ 4 (Vite builder)
-- [`oxlint`](https://www.npmjs.com/package/oxlint) installed in your project as a dev dependency
+- Nuxt ≥ 4 (Nuxt 4 with `compatibilityVersion: 5` not tested)
+- [`oxlint`](https://npmx.dev/package/oxlint) installed in your project as a dev dependency
 
 ## Quick Setup
 
+1. Install the module and the oxlint binary
 ```bash
-# 1. Install the module and the oxlint binary
 pnpm add -D nuxt-oxlint oxlint
 
-# 2. Add it to your nuxt.config.ts
 ```
 
+2. Add it to your nuxt.config.ts
 ```ts
 // nuxt.config.ts
 export default defineNuxtConfig({
@@ -48,7 +48,7 @@ export default defineNuxtConfig({
 })
 ```
 
-That's it — start the dev server and oxlint will run on every save.
+That's it ! Start your dev server and oxlint will run on every save.
 
 ## Configuration
 
