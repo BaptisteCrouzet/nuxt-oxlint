@@ -29,6 +29,9 @@ Heavily inspired by [`@nuxt/eslint`](https://eslint.nuxt.com), but built for **O
 - Nuxt ≥ 4 (Nuxt 4 with `compatibilityVersion: 5` not tested)
 - [`oxlint`](https://npmx.dev/package/oxlint) installed in your project as a dev dependency
 
+> [!WARNING]
+> `nuxt-oxlint` hooks into Nuxt's Vite pipeline. **Webpack is not supported**.
+
 ## Quick Setup
 
 1. Install the module and the oxlint binary
@@ -155,6 +158,22 @@ pnpm add -D nuxt-oxlint oxlint
 +   },
   })
 ```
+
+#### `vite-plugin-eslint2@^5.0.0` vs `nuxt-oxlint` (`vite-plugin-oxlint`)
+
+When migrating from an ESLint checker setup based on `vite-plugin-eslint2`, here is how options compare:
+
+| `vite-plugin-eslint2` | `nuxt-oxlint` (`oxlint.checker`) | Notes |
+|---|---|---|
+| `lintOnStart` | `lintOnStart` | Same behavior: run a full lint when dev server starts |
+| `fix` | `fix` | Same intent: apply auto-fixes when available |
+| `failOnError`, `failOnWarning` | `failOnError`, `failOnWarning` | Same behavior: fail dev/build on violations |
+| `formatter` | `format` | Both customize output format, with different allowed format values |
+| `include` / `exclude` | `path` + `ignorePattern` | Scope linted files by target path and ignore patterns |
+| `eslintPath`, `cache`, `cacheLocation`, ESLint CLI options | `oxlintPath`, `params` | Tool-specific binary/CLI configuration |
+| ESLint rules/plugins config | `configFile`, `allow`, `deny`, `warn` | Oxlint uses its own rules and config model |
+
+`nuxt-oxlint` is Oxlint-first: it does not expose ESLint plugin/rule runtime behavior. Keep `@nuxt/eslint` in parallel only when you still need ESLint-only rules/plugins.
 
 ### 3. (Optional) Keep ESLint for rules not yet covered by Oxlint
 
