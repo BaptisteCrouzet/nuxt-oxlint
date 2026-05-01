@@ -36,6 +36,9 @@
     "test:watch": "vitest watch",
     "test:types": "vue-tsc --noEmit && cd playground && vue-tsc --noEmit"
   },
+  "peerDependencies": {
+    "oxlint": ">=0.9.0"
+  },
   "dependencies": {
     "@nuxt/kit": "^4.4.2",
     "vite-plugin-oxlint": "^2.0.1"
