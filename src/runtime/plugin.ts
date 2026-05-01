@@ -1,5 +1,1 @@
-import { defineNuxtPlugin } from '#app'
-
-export default defineNuxtPlugin((_nuxtApp) => {
-  console.log('Plugin injected by nuxt-oxlint!')
-})
+// nuxt-oxlint is a dev-only build-time tool — no runtime plugin needed.
