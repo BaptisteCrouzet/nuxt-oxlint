@@ -1,19 +1,45 @@
-import { defineNuxtModule, addPlugin, createResolver } from '@nuxt/kit'
+import { defineNuxtModule, addVitePlugin, useLogger } from '@nuxt/kit'
+import type oxlintPlugin from 'vite-plugin-oxlint'
 
-// Module options TypeScript interface definition
-export interface ModuleOptions {}
+export type CheckerOptions = NonNullable<Parameters<typeof oxlintPlugin>[0]>
+
+export interface ModuleOptions {
+  /**
+   * Enable the oxlint checker in the Vite dev server.
+   * Set to `true` to use defaults, or pass an options object to customize.
+   *
+   * Requires `oxlint` to be installed in the project.
+   * @default false
+   */
+  checker?: boolean | CheckerOptions
+}
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
     name: 'nuxt-oxlint',
-    configKey: 'nuxtOxlint',
+    configKey: 'oxlint',
   },
-  // Default configuration options of the Nuxt module
-  defaults: {},
-  setup(_options, _nuxt) {
-    const resolver = createResolver(import.meta.url)
+  defaults: {
+    checker: false,
+  },
+  async setup(options, nuxt) {
+    if (!options.checker || !nuxt.options.dev) {
+      return;
+    }
 
-    // Do not add the extension since the `.ts` will be transpiled to `.mjs` after `npm run prepack`
-    addPlugin(resolver.resolve('./runtime/plugin'))
+    const logger = useLogger('nuxt:oxlint');
+
+    if (nuxt.options.builder !== '@nuxt/vite-builder') {
+      logger.warn('nuxt-oxlint checker only supports the Vite builder. Checker will not be enabled.');
+      return;
+    }
+
+    const checkerOptions: CheckerOptions = typeof options.checker === 'object' ? options.checker : {};
+
+    const vitePluginOxlint = await import('vite-plugin-oxlint').then(
+      m => ('default' in m ? m.default : m) as typeof import('vite-plugin-oxlint').default,
+    );
+
+    addVitePlugin(() => vitePluginOxlint(checkerOptions), { server: false });
   },
 })
