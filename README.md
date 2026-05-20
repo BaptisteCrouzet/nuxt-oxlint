@@ -34,7 +34,6 @@ Heavily inspired by [`@nuxt/eslint`](https://eslint.nuxt.com), but built for **O
 1. Install the module and the oxlint binary
 ```bash
 pnpm add -D nuxt-oxlint oxlint
-
 ```
 
 2. Add it to your nuxt.config.ts
@@ -62,19 +61,36 @@ export default defineNuxtConfig({
   oxlint: {
     // Set to `true` to enable with defaults, or pass an options object.
     checker: {
-      // Path to an oxlint config file (default: oxlintrc.json), it can also be oxlint.config.ts or vite.config.ts, where you placed it
+      // Path to an oxlint config file (default: oxlintrc.json)
+      // it can also be oxlint.config.ts or vite.config.ts
       // See : https://oxc.rs/docs/guide/usage/linter/config.html
       configFile: '.oxlintrc.json',
 
       // Directory to lint (default: project root as '.')
       path: 'app',
 
-      // Run oxlint when the dev server starts (default: true)
-      lintOnStart: true,
+      // For your glob patterns or files to ignore
+      // ignorePattern: 'path/to/dummy/files/beeing/never/linted.ts'
+
+      // Rules to enable / disable / warn
+      // See : https://oxc.rs/docs/guide/usage/linter/rules.html
+      allow: ['debugger'],
+      deny: ['correctness'],
+      warn: ['suspicious'],
+
+      // Path to the oxlint binary (useful in monorepos)
+      // oxlintPath: '/path/to/node_modules/.bin/oxlint',
+
+      // Output format: default | stylish | github | gitlab | json | unix | ...
+      // See : https://oxc.rs/docs/guide/usage/linter/output-formats.html
+      format: 'default',
 
       // Suppress warnings, only report errors (default: false)
       // Same as running : oxlint --quiet
       quiet: false,
+
+      // Attempt an auto-fix on triggered rules, if an autofix exists
+      fix: false
 
       // Fail the dev build on lint errors (default: false)
       failOnError: false,
@@ -82,24 +98,8 @@ export default defineNuxtConfig({
       // Fail the dev build on lint warnings (default: false)
       failOnWarning: false,
 
-      // Attempt an auto-fix when the rule get triggered, if an autofix exists
-      fix: false
-
-      // Rules to enable / disable / warn
-      // See : https://oxc.rs/docs/guide/usage/linter/rules.html
-      deny: ['correctness'],
-      allow: ['debugger'],
-      warn: ['suspicious'],
-
-      // Output format: default | stylish | github | gitlab | json | unix | ...
-      // See : https://oxc.rs/docs/guide/usage/linter/output-formats.html
-      format: 'default',
-
-      // For your glob patterns or files to ignore
-      // ignorePattern: 'path/to/dummy/files/beeing/never/linted.ts'
-
-      // Path to the oxlint binary (useful in monorepos)
-      // oxlintPath: '/path/to/node_modules/.bin/oxlint',
+      // Run oxlint when the dev server starts (default: true)
+      lintOnStart: true,
 
       // CLI flags additionnaly passed to oxlint
       // See : https://oxc.rs/docs/guide/usage/linter/cli.html
@@ -158,7 +158,7 @@ pnpm add -D nuxt-oxlint oxlint
 
 ### 3. (Optional) Keep ESLint for rules not yet covered by Oxlint
 
-Oxlint covers [~715 rules](https://oxc.rs/docs/guide/usage/linter/rules.html) out of the box, including popular plugins.
+Oxlint covers [more than 800 rules](https://oxc.rs/docs/guide/usage/linter/rules.html) out of the box, including popular plugins.
 If you still rely on ESLint plugins that Oxlint doesn't support yet, you can run both in parallel:
 
 ```bash
