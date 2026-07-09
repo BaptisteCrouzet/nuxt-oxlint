@@ -52,7 +52,7 @@ Heavily inspired by [`@nuxt/eslint`](https://eslint.nuxt.com), but built for **O
 
 1. Install the module and the oxlint binary
 ```bash
-pnpm add -D nuxt-oxlint oxlint
+pnpm add -D @baptistecrouzet/nuxt-oxlint oxlint
 ```
 
 2. Add it to your nuxt.config.ts
