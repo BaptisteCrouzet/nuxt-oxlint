@@ -1,6 +1,6 @@
 {
   "name": "nuxt-oxlint",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Nuxt module for OXLint, a linting tool for Nuxt projects. Help developers to switch to Oxlint",
   "repository": "BaptisteCrouzet/nuxt-oxlint",
   "license": "MIT",
