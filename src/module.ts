@@ -1,7 +1,7 @@
-import { defineNuxtModule, addVitePlugin, useLogger } from '@nuxt/kit'
-import type oxlintPlugin from 'vite-plugin-oxlint'
+import { defineNuxtModule, addVitePlugin, useLogger } from '@nuxt/kit';
+import type oxlintPlugin from 'vite-plugin-oxlint';
 
-export type CheckerOptions = NonNullable<Parameters<typeof oxlintPlugin>[0]>
+export type CheckerOptions = NonNullable<Parameters<typeof oxlintPlugin>[0]>;
 
 export interface ModuleOptions {
   /**
@@ -22,7 +22,7 @@ export interface ModuleOptions {
    * @remarks This option only affects the display of the config file path in the terminal. It does not affect whether the checker is enabled or how it functions.
    */
   displayConfigfileOnStart?: boolean
-}
+};
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
@@ -31,7 +31,7 @@ export default defineNuxtModule<ModuleOptions>({
   },
   defaults: {
     checker: false,
-    displayConfigfileOnStart: false
+    displayConfigfileOnStart: false,
   },
   async setup(options, nuxt) {
     if (!options.checker || !nuxt.options.dev) {
@@ -61,7 +61,6 @@ export default defineNuxtModule<ModuleOptions>({
 
 /**
  * Finds the oxlint config file in the project root directory.
- * 
  * @param rootDir The root directory of the project.
  * @returns The path to the oxlint config file, or null if not found.
  */
