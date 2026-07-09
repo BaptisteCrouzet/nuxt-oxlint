@@ -117,6 +117,8 @@ export default defineNuxtConfig({
       // params: '--report-unused-disable-directives --type-aware'
     },
   },
+  // Display the path to the oxlint config file in the terminal when the dev server starts
+  displayConfigfileOnStart: false,
 })
 ```
 
