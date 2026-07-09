@@ -1,6 +1,23 @@
 # Changelog
 
 
+## v1.1.3
+
+[compare changes](https://github.com/BaptisteCrouzet/nuxt-oxlint/compare/v1.1.2...v1.1.3)
+
+### 🩹 Fixes
+
+- **package.json:** 🐛  Update package name to include scope ([454b86d](https://github.com/BaptisteCrouzet/nuxt-oxlint/commit/454b86d))
+- **package.json:** 🐛  Correct release script to use npm publish instead of npm stage publish ([362e577](https://github.com/BaptisteCrouzet/nuxt-oxlint/commit/362e577))
+
+### 🏡 Chore
+
+- **release:** V1.1.2 ([2ae5874](https://github.com/BaptisteCrouzet/nuxt-oxlint/commit/2ae5874))
+
+### ❤️ Contributors
+
+- Baptiste Crouzet <mailpro@baptistecrouzet.fr>
+
 ## v1.1.2
 
 [compare changes](https://github.com/BaptisteCrouzet/nuxt-oxlint/compare/v1.1.0...v1.1.2)
