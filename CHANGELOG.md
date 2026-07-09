@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v1.1.2
+
+[compare changes](https://github.com/BaptisteCrouzet/nuxt-oxlint/compare/v1.1.0...v1.1.2)
+
+### 🏡 Chore
+
+- **release:** V1.1.1 ([bd2e1ac](https://github.com/BaptisteCrouzet/nuxt-oxlint/commit/bd2e1ac))
+
+### ❤️ Contributors
+
+- Baptiste Crouzet <mailpro@baptistecrouzet.fr>
+
 ## v1.1.1
 
 [compare changes](https://github.com/BaptisteCrouzet/nuxt-oxlint/compare/v1.1.0...v1.1.1)
