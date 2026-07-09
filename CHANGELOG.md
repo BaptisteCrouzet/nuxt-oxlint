@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v1.1.1
+
+[compare changes](https://github.com/BaptisteCrouzet/nuxt-oxlint/compare/v1.1.0...v1.1.1)
+
+### 🩹 Fixes
+
+- **package.json:** 🐛  Update repository field to use object format ([b7affd4](https://github.com/BaptisteCrouzet/nuxt-oxlint/commit/b7affd4))
+
+### ❤️ Contributors
+
+- Baptiste Crouzet <mailpro@baptistecrouzet.fr>
+
 ## v1.1.0
 
 
