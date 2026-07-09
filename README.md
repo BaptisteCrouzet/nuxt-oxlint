@@ -9,7 +9,6 @@
 
 Heavily inspired by [`@nuxt/eslint`](https://eslint.nuxt.com), but built for **Oxlint**: a Rust-powered linter built on the Oxc compiler stack, that is orders of magnitude faster than ESLint.
 
-- [✨ &nbsp;Release Notes](/CHANGELOG.md)
 <!-- - [🏀 Online playground](https://stackblitz.com/github/BaptisteCrouzet/nuxt-oxlint?file=playground%2Fapp.vue) -->
 
 ## Features
@@ -18,7 +17,19 @@ Heavily inspired by [`@nuxt/eslint`](https://eslint.nuxt.com), but built for **O
 - 🖥 &nbsp;**Dev server output** — lint results appear directly in the terminal at every file save, without leaving your editor
 - 🔧 &nbsp;**Fully configurable** — exposes all `vite-plugin-oxlint` options (config file, rules, format, auto-fix…)
 - 🚫 &nbsp;**Zero runtime overhead** — dev-only, nothing shipped to the browser
-- 
+
+
+## Table of contents
+
+- [How it works](#how-it-works)
+- [Requirements](#requirements)
+- [Quick Setup](#quick-setup)
+- [Configuration](#configuration)
+- [Available options](#available-options)
+- [Migrating from @nuxt/eslint](#migrating-from-nuxeslint)
+- [Roadmap](#roadmap)
+- [Contribution](#contribution)
+
 
 ## How it works
 
@@ -26,7 +37,7 @@ Heavily inspired by [`@nuxt/eslint`](https://eslint.nuxt.com), but built for **O
 
 ## Requirements
 
-- Nuxt ≥ 4 (Nuxt 4 with `compatibilityVersion: 5` not tested)
+- Nuxt ≥ 4 (Nuxt 4 with `compatibilityVersion: 5` not tested but accepted)
 - [`oxlint`](https://npmx.dev/package/oxlint) installed in your project as a dev dependency
 
 ## Quick Setup
@@ -158,7 +169,7 @@ pnpm add -D nuxt-oxlint oxlint
 
 ### 3. (Optional) Keep ESLint for rules not yet covered by Oxlint
 
-Oxlint covers [more than 800 rules](https://oxc.rs/docs/guide/usage/linter/rules.html) out of the box, including popular plugins.
+Oxlint covers [more than 840 rules](https://oxc.rs/docs/guide/usage/linter/rules.html) out of the box, including popular plugins.
 If you still rely on ESLint plugins that Oxlint doesn't support yet, you can run both in parallel:
 
 ```bash
@@ -185,6 +196,27 @@ export default [
   ...oxlint.buildFromOxlintConfigFile('.oxlintrc.json'),
 ]
 ```
+
+## Roadmap
+
+It could be better to go further :
+
+- Add a nuxt devtool tab in order to edit the config in live
+  - Display some toggles for enabled categories (and the amount of corresponding rules)
+  - Display the configFile used
+  - Add two butons : "Save to config file" / "Save to nuxt.config"
+  - button "reset to defaults"
+  - button "Re-lint now"
+  - button "Try to fix fixable things"
+- Add a tool for migrating from eslint in devtools
+ - Display the number of supported rules
+ - Display the numer of not supported rules
+ - Display the unsupported configuration entries or options
+ - Display the transposed configuration
+ - Add a button or script helping to switch to Oxlint
+- Explore typecheck option of oxlint and add some hints in the readme or warnings if needed
+- Display a summary bar: X errors, Y warnings, Z files
+
 
 ## Contribution
 
