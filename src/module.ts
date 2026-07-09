@@ -1,6 +1,9 @@
 import { defineNuxtModule, addVitePlugin, useLogger } from '@nuxt/kit';
 import type oxlintPlugin from 'vite-plugin-oxlint';
 
+import { promises } from 'node:fs';
+import { join } from 'node:path';
+
 export type CheckerOptions = NonNullable<Parameters<typeof oxlintPlugin>[0]>;
 
 export interface ModuleOptions {
@@ -66,19 +69,17 @@ export default defineNuxtModule<ModuleOptions>({
  */
 async function findConfigFile(rootDir: string): Promise<string | null> {
   const configFiles = ['.oxlintrc', '.oxlintrc.json', '.oxlintrc.js', 'oxlint.config.js', 'config/oxlint.config.js'];
-  const fs = require('fs').promises;
-  const path = require('path');
 
-  return new Promise(async (resolve) => {
+  return new Promise((resolve) => {
     for (const fileName of configFiles) {
-      const filePath = path.join(rootDir, fileName);
-      try {
-        await fs.access(filePath);
-        resolve(filePath);
-        return;
-      } catch {
-        // File does not exist, continue to the next one
-      }
+      const filePath = join(rootDir, fileName);
+        promises.access(filePath)
+          .then(() => {
+            resolve(filePath);
+          })
+          .catch(() => {
+            // File does not exist, continue to the next one
+          });
     }
     resolve(null);
   });
