@@ -1,6 +1,23 @@
 # Changelog
 
 
+## v1.1.5
+
+[compare changes](https://github.com/BaptisteCrouzet/nuxt-oxlint/compare/v1.1.3...v1.1.5)
+
+### 🩹 Fixes
+
+- **package.json:** 🐛  Update version to 1.1.4 and enhance publish scripts ([a756ed2](https://github.com/BaptisteCrouzet/nuxt-oxlint/commit/a756ed2))
+- **README.md:** 🐛  Update package name to include scope in installation instructions ([46bc0e3](https://github.com/BaptisteCrouzet/nuxt-oxlint/commit/46bc0e3))
+
+### 🏡 Chore
+
+- **release:** V1.1.3 ([4a239a0](https://github.com/BaptisteCrouzet/nuxt-oxlint/commit/4a239a0))
+
+### ❤️ Contributors
+
+- Baptiste Crouzet <mailpro@baptistecrouzet.fr>
+
 ## v1.1.3
 
 [compare changes](https://github.com/BaptisteCrouzet/nuxt-oxlint/compare/v1.1.2...v1.1.3)
