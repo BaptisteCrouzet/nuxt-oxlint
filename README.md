@@ -15,14 +15,13 @@
 
 Integrate [Oxlint](https://oxc.rs/docs/guide/usage/linter.html) into your Nuxt project — and see lint output directly in the dev server terminal on every save.
 
-<!-- - [🏀 Online playground](https://stackblitz.com/github/BaptisteCrouzet/nuxt-oxlint?file=playground%2Fapp.vue) -->
-
 ## Features
 
 - ⚡ &nbsp;**Fast** — Oxlint is written in Rust and runs in milliseconds even on large codebases (50 to 100 times faster than ESLint ([`see benchmarks`](https://github.com/oxc-project/bench-linter))
 - 🖥 &nbsp;**Dev server output** — lint results appear directly in the terminal at every file save, without leaving your editor
 - 🔧 &nbsp;**Fully configurable** — exposes all `vite-plugin-oxlint` options (config file, rules, format, auto-fix…)
 - 🚫 &nbsp;**Zero runtime overhead** — dev-only, nothing shipped to the browser
+- [🏀 Try the online playground](https://stackblitz.com/github/BaptisteCrouzet/nuxt-oxlint?file=playground%2Fapp.vue)
 
 
 ## Table of contents
@@ -35,6 +34,7 @@ Integrate [Oxlint](https://oxc.rs/docs/guide/usage/linter.html) into your Nuxt p
 - [Migrating from @nuxt/eslint](#migrating-from-nuxeslint)
 - [Roadmap](#roadmap)
 - [Contribution](#contribution)
+- [Release Notes](https://github.com/BaptisteCrouzet/nuxt-oxlint/releases) 
 
 
 ## How it works
