@@ -211,6 +211,7 @@ export default [
 
 It could be better to go further :
 
+- Add some unit tests
 - Add a nuxt devtool tab in order to edit the config in live
   - Display some toggles for enabled categories (and the amount of corresponding rules)
   - Display the configFile used
