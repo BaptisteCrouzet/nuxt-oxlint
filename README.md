@@ -5,8 +5,6 @@
 [![License][license-src]][license-href]
 [![Nuxt][nuxt-src]][nuxt-href]
 
-> Integrate [Oxlint](https://oxc.rs/docs/guide/usage/linter.html) into your Nuxt project — and see lint output directly in the dev server terminal on every save.
-
 <div align="center">
 
 <img src="./docs/screenshots/MainNuxtOxlint.png" alt="Nuxt Oxlint" width="820"/>
@@ -15,7 +13,7 @@
 
 </div>
 
-Heavily inspired by [`@nuxt/eslint`](https://eslint.nuxt.com), but built for **Oxlint**: a Rust-powered linter built on the Oxc compiler stack, that is orders of magnitude faster than ESLint.
+Integrate [Oxlint](https://oxc.rs/docs/guide/usage/linter.html) into your Nuxt project — and see lint output directly in the dev server terminal on every save.
 
 <!-- - [🏀 Online playground](https://stackblitz.com/github/BaptisteCrouzet/nuxt-oxlint?file=playground%2Fapp.vue) -->
 
