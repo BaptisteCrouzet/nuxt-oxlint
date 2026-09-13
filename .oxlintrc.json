@@ -1,0 +1,23 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "unicorn", "oxc", "import", "jsdoc", "vue", "vitest"],
+  "categories": {
+    "correctness": "error"
+  },
+  "rules": {
+    "jsdoc/check-tag-names": ["error", { "definedTags": ["remarks"] }]
+  },
+  "env": {
+    "builtin": true,
+    "node": true
+  },
+  "ignorePatterns": ["dist", ".nuxt", ".output", "playground/.nuxt", "test/fixtures/**/.nuxt"],
+  "overrides": [
+    {
+      "files": ["src/runtime/plugin.ts"],
+      "rules": {
+        "unicorn/no-empty-file": "off"
+      }
+    }
+  ]
+}
