@@ -15,7 +15,7 @@ export interface ModuleOptions {
    * @see https://github.com/52-entertainment/vite-plugin-oxlint for available and default options.
    * @default false
    */
-  checker?: boolean | CheckerOptions
+  checker?: boolean | CheckerOptions;
   /**
    * Display the path to the oxlint config file in the terminal when the dev server starts.
    * Attempts to find common config file names in the project root directory.
@@ -24,8 +24,8 @@ export interface ModuleOptions {
    * @default false
    * @remarks This option only affects the display of the config file path in the terminal. It does not affect whether the checker is enabled or how it functions.
    */
-  displayConfigfileOnStart?: boolean
-};
+  displayConfigfileOnStart?: boolean;
+}
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
@@ -44,18 +44,21 @@ export default defineNuxtModule<ModuleOptions>({
     const logger = useLogger('nuxt:oxlint');
 
     if (nuxt.options.builder !== '@nuxt/vite-builder') {
-      logger.warn('nuxt-oxlint checker only supports the Vite builder. Checker will not be enabled.');
+      logger.warn(
+        'nuxt-oxlint checker only supports the Vite builder. Checker will not be enabled.',
+      );
       return;
     }
 
-    const checkerOptions: CheckerOptions = typeof options.checker === 'object' ? options.checker : {};
+    const checkerOptions: CheckerOptions =
+      typeof options.checker === 'object' ? options.checker : {};
 
     if (options.displayConfigfileOnStart) {
       await logConfigFilePath(logger, checkerOptions.configFile || null, nuxt.options.rootDir);
     }
 
     const vitePluginOxlint = await import('vite-plugin-oxlint').then(
-      m => ('default' in m ? m.default : m) as typeof import('vite-plugin-oxlint').default,
+      (m) => ('default' in m ? m.default : m) as typeof import('vite-plugin-oxlint').default,
     );
 
     addVitePlugin(() => vitePluginOxlint(checkerOptions), { server: false });
@@ -68,18 +71,25 @@ export default defineNuxtModule<ModuleOptions>({
  * @returns The path to the oxlint config file, or null if not found.
  */
 async function findConfigFile(rootDir: string): Promise<string | null> {
-  const configFiles = ['.oxlintrc', '.oxlintrc.json', '.oxlintrc.js', 'oxlint.config.js', 'config/oxlint.config.js'];
+  const configFiles = [
+    '.oxlintrc',
+    '.oxlintrc.json',
+    '.oxlintrc.js',
+    'oxlint.config.js',
+    'config/oxlint.config.js',
+  ];
 
   return new Promise((resolve) => {
     for (const fileName of configFiles) {
       const filePath = join(rootDir, fileName);
-        promises.access(filePath)
-          .then(() => {
-            resolve(filePath);
-          })
-          .catch(() => {
-            // File does not exist, continue to the next one
-          });
+      promises
+        .access(filePath)
+        .then(() => {
+          resolve(filePath);
+        })
+        .catch(() => {
+          // File does not exist, continue to the next one
+        });
     }
     resolve(null);
   });
@@ -87,19 +97,25 @@ async function findConfigFile(rootDir: string): Promise<string | null> {
 
 /**
  * Logs the path to the oxlint config file if found, or a warning if not found.
- * 
+ *
  * @param logger The logger instance to use for logging.
  * @param filePath The path to the oxlint config file, or null if not found.
  * @param rootDir The root directory of the project (used for logging context).
  */
-async function logConfigFilePath(logger: ReturnType<typeof useLogger>, filePath: string | null, rootDir: string): Promise<void> {
+async function logConfigFilePath(
+  logger: ReturnType<typeof useLogger>,
+  filePath: string | null,
+  rootDir: string,
+): Promise<void> {
   try {
     const configFilePath = await findConfigFile(rootDir);
     if (configFilePath) {
       logger.info(`Using oxlint config file: ${configFilePath}`);
     } else {
       logger.info('No oxlint config file found in the project root.');
-      logger.info(`Using oxlint defaults. You can create a config file in the project root to customize the behavior.`);
+      logger.info(
+        `Using oxlint defaults. You can create a config file in the project root to customize the behavior.`,
+      );
     }
   } catch (error) {
     logger.error('Error finding oxlint config file:', error);
