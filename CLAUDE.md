@@ -76,7 +76,7 @@ Do not widen the rule set to get a cleanup in — an added category is its own c
   docs(README): :memo: Document the checker option
   chore(release): v1.1.6
   ```
-- **Code style**: oxfmt owns formatting — do not hand-format. Defaults apply except `singleQuote: true` and `sortPackageJson: false`; that means semicolons, 2-space indent, 100-column width and trailing commas. Markdown is excluded and stays hand-written. Run `pnpm format` rather than adjusting whitespace by hand.
+- **Code style**: oxfmt owns formatting — do not hand-format. Defaults apply except `printWidth: 130`, `singleQuote: true` and `sortPackageJson: false`; that means semicolons, 2-space indent, 130-column width and trailing commas. Markdown is excluded and stays hand-written. Run `pnpm format` rather than adjusting whitespace by hand.
 - **Comments**: JSDoc on exported options and helpers. No inline narration of obvious code.
 - **Scope**: change what the task requires. No opportunistic refactors, no reformatting passes.
 
