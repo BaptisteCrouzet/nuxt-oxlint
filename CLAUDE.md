@@ -19,6 +19,7 @@ Published to both npm and GitHub Packages under the `@baptistecrouzet` scope.
 | `test/fixtures/basic/` | Minimal Nuxt app, imports `src/module` directly |
 | `app/`, `nuxt.config.ts` | Root Nuxt shell, not part of the published package |
 | `docs/screenshots/` | README assets |
+| `.oxlintrc.json`, `.oxfmtrc.json` | Lint and format config — see below |
 
 Only `dist/` is published (`files` in `package.json`).
 
@@ -26,14 +27,17 @@ Only `dist/` is published (`files` in `package.json`).
 
 - **pnpm** is the package manager. Do not use npm or yarn for installs, even though the publish scripts call `npm publish` directly.
 - Node 20 in CI, Node 22 locally — both fine.
-- Build: `@nuxt/module-builder`. Lint: ESLint via `@nuxt/eslint-config` (oxlint is the module's *subject*, not its own linter).
+- Build: `@nuxt/module-builder`. Lint: **oxlint** (`.oxlintrc.json`). Format: **oxfmt** (`.oxfmtrc.json`). The repo dogfoods the toolchain it integrates.
 
 ## Commands
 
 ```bash
 pnpm dev:prepare   # stub build + prepare playground — run this first after a fresh clone
 pnpm dev           # dev:prepare + nuxt dev playground
-pnpm lint          # eslint .
+pnpm lint          # oxlint
+pnpm lint:fix      # oxlint --fix
+pnpm format        # oxfmt — rewrites files in place
+pnpm format:check  # oxfmt --check — what CI runs
 pnpm test          # vitest run
 pnpm test:types    # vue-tsc --noEmit (root + playground)
 pnpm prepack       # real build into dist/
@@ -41,7 +45,7 @@ pnpm prepack       # real build into dist/
 
 `pnpm dev:prepare` is a prerequisite for `pnpm test` on a cold checkout — CI runs it explicitly before the test job.
 
-Before pushing, run at minimum `pnpm lint` and `pnpm test`.
+Before pushing, run at minimum `pnpm lint`, `pnpm format:check` and `pnpm test`.
 
 ## Module contract
 
@@ -54,6 +58,15 @@ Config key is `oxlint` in `nuxt.config.ts`. Options (`ModuleOptions` in `src/mod
 
 `CheckerOptions` is derived from `vite-plugin-oxlint`'s own parameter type — do not hand-copy its option list.
 
+## Lint and format config
+
+`.oxlintrc.json` mirrors the plugin coverage the previous `@nuxt/eslint-config` setup had: `typescript`, `unicorn`, `oxc`, `import`, `jsdoc`, `vue`, `vitest`, at the `correctness` category. Two deliberate exceptions keep existing code passing:
+
+- `jsdoc/check-tag-names` allows the TSDoc `@remarks` tag used in `src/module.ts`.
+- `unicorn/no-empty-file` is off for `src/runtime/plugin.ts`, which is empty on purpose.
+
+Do not widen the rule set to get a cleanup in — an added category is its own change.
+
 ## Conventions
 
 - **Commits**: conventional commits in English, with a gitmoji after the type/scope. Scope is usually the file or area touched.
@@ -63,13 +76,13 @@ Config key is `oxlint` in `nuxt.config.ts`. Options (`ModuleOptions` in `src/mod
   docs(README): :memo: Document the checker option
   chore(release): v1.1.6
   ```
-- **Code style**: ESLint stylistic rules are **off**, so formatting is not enforced. `src/` uses semicolons and 2-space indent; match the file you are editing rather than reformatting it. `.editorconfig` covers indent, LF endings and final newline.
+- **Code style**: oxfmt owns formatting — do not hand-format. Defaults apply except `printWidth: 130`, `singleQuote: true` and `sortPackageJson: false`; that means semicolons, 2-space indent, 130-column width and trailing commas. Markdown is excluded and stays hand-written. Run `pnpm format` rather than adjusting whitespace by hand.
 - **Comments**: JSDoc on exported options and helpers. No inline narration of obvious code.
 - **Scope**: change what the task requires. No opportunistic refactors, no reformatting passes.
 
 ## Releasing
 
-`pnpm release` chains lint → test → prepack → `changelogen --release` → publish to npm and GitHub Packages → `git push --follow-tags`. It requires being logged in to both registries (`pnpm publish:check-auth`). Do not run it unless explicitly asked.
+`pnpm release` chains format:check → lint → test → prepack → `changelogen --release` → publish to npm and GitHub Packages → `git push --follow-tags`. It requires being logged in to both registries (`pnpm publish:check-auth`). Do not run it unless explicitly asked.
 
 ## Gotchas
 

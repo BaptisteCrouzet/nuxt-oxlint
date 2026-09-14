@@ -245,8 +245,11 @@ It could be better to go further :
   # Build the module
   pnpm prepack
 
-  # Run ESLint
+  # Run Oxlint
   pnpm lint
+
+  # Run Oxfmt
+  pnpm format
 
   # Run Vitest
   pnpm test

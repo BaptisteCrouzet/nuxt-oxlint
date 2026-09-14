@@ -15,7 +15,7 @@ export interface ModuleOptions {
    * @see https://github.com/52-entertainment/vite-plugin-oxlint for available and default options.
    * @default false
    */
-  checker?: boolean | CheckerOptions
+  checker?: boolean | CheckerOptions;
   /**
    * Display the path to the oxlint config file in the terminal when the dev server starts.
    * Attempts to find common config file names in the project root directory.
@@ -24,8 +24,8 @@ export interface ModuleOptions {
    * @default false
    * @remarks This option only affects the display of the config file path in the terminal. It does not affect whether the checker is enabled or how it functions.
    */
-  displayConfigfileOnStart?: boolean
-};
+  displayConfigfileOnStart?: boolean;
+}
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
@@ -55,7 +55,7 @@ export default defineNuxtModule<ModuleOptions>({
     }
 
     const vitePluginOxlint = await import('vite-plugin-oxlint').then(
-      m => ('default' in m ? m.default : m) as typeof import('vite-plugin-oxlint').default,
+      (m) => ('default' in m ? m.default : m) as typeof import('vite-plugin-oxlint').default,
     );
 
     addVitePlugin(() => vitePluginOxlint(checkerOptions), { server: false });
@@ -73,13 +73,14 @@ async function findConfigFile(rootDir: string): Promise<string | null> {
   return new Promise((resolve) => {
     for (const fileName of configFiles) {
       const filePath = join(rootDir, fileName);
-        promises.access(filePath)
-          .then(() => {
-            resolve(filePath);
-          })
-          .catch(() => {
-            // File does not exist, continue to the next one
-          });
+      promises
+        .access(filePath)
+        .then(() => {
+          resolve(filePath);
+        })
+        .catch(() => {
+          // File does not exist, continue to the next one
+        });
     }
     resolve(null);
   });
@@ -87,7 +88,7 @@ async function findConfigFile(rootDir: string): Promise<string | null> {
 
 /**
  * Logs the path to the oxlint config file if found, or a warning if not found.
- * 
+ *
  * @param logger The logger instance to use for logging.
  * @param filePath The path to the oxlint config file, or null if not found.
  * @param rootDir The root directory of the project (used for logging context).
