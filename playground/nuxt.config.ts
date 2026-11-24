@@ -1,5 +1,5 @@
 export default defineNuxtConfig({
-  modules: ['nuxt-oxlint'],
+  modules: ['../src/module'],
   devtools: { enabled: true },
   compatibilityDate: 'latest',
   oxlint: {

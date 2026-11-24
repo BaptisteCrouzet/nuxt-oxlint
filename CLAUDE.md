@@ -14,7 +14,7 @@ Published to both npm and GitHub Packages under the `@baptistecrouzet` scope.
 | --- | --- |
 | `src/module.ts` | The whole module: options, config-file lookup, Vite plugin registration |
 | `src/runtime/plugin.ts` | Intentionally empty — there is no runtime plugin |
-| `playground/` | Nuxt app for manual testing, consumes the module by name |
+| `playground/` | Nuxt app for manual testing, imports `src/module` directly |
 | `test/basic.test.ts` | Vitest + `@nuxt/test-utils` e2e test |
 | `test/fixtures/basic/` | Minimal Nuxt app, imports `src/module` directly |
 | `app/`, `nuxt.config.ts` | Root Nuxt shell, not part of the published package |
@@ -88,4 +88,4 @@ Do not widen the rule set to get a cleanup in — an added category is its own c
 
 - The default branch is `master`, but `.github/workflows/ci.yml` triggers on `main` — CI will not run on PRs targeting `master` until that is fixed.
 - `findConfigFile` in `src/module.ts` resolves its promise from parallel `access()` callbacks; the `resolve(null)` at the end wins the race. Touching this function means fixing that logic, so verify the behaviour you expect with a test.
-- `playground/package.json` depends on `nuxt-oxlint@latest` from the registry, while `test/fixtures/basic` imports `src/module` directly. Source changes show up in tests immediately, in the playground only after `pnpm dev:prepare`.
+- Do not add `nuxt-oxlint` (unscoped) anywhere: that npm name belongs to an unrelated package. The module is `@baptistecrouzet/nuxt-oxlint`; the playground and the test fixture both import `src/module` directly.

@@ -57,7 +57,7 @@ pnpm add -D @baptistecrouzet/nuxt-oxlint oxlint
 ```ts
 // nuxt.config.ts
 export default defineNuxtConfig({
-  modules: ['nuxt-oxlint'],
+  modules: ['@baptistecrouzet/nuxt-oxlint'],
   oxlint: {
     checker: true, // enable with defaults
   },
@@ -73,13 +73,15 @@ All options live under the `oxlint` key in `nuxt.config.ts`.
 ```ts
 // nuxt.config.ts
 export default defineNuxtConfig({
-  modules: ['nuxt-oxlint'],
+  modules: ['@baptistecrouzet/nuxt-oxlint'],
 
   oxlint: {
     // Set to `true` to enable with defaults, or pass an options object.
     checker: {
-      // Path to an oxlint config file (default: oxlintrc.json)
-      // it can also be oxlint.config.ts or vite.config.ts
+      // Path to a custom oxlint config file.
+      // Optional: by default oxlint discovers .oxlintrc.json, .oxlintrc.jsonc
+      // or oxlint.config.ts by itself (a legacy oxlintrc.json at the root is also picked up).
+      // Setting it disables nested config discovery.
       // See : https://oxc.rs/docs/guide/usage/linter/config.html
       configFile: '.oxlintrc.json',
 
@@ -107,7 +109,7 @@ export default defineNuxtConfig({
       quiet: false,
 
       // Attempt an auto-fix on triggered rules, if an autofix exists
-      fix: false
+      fix: false,
 
       // Fail the dev build on lint errors (default: false)
       failOnError: false,
@@ -122,9 +124,10 @@ export default defineNuxtConfig({
       // See : https://oxc.rs/docs/guide/usage/linter/cli.html
       // params: '--report-unused-disable-directives --type-aware'
     },
+
+    // Display the path to the oxlint config file in the terminal when the dev server starts (default: false)
+    displayConfigfileOnStart: false,
   },
-  // Display the path to the oxlint config file in the terminal when the dev server starts
-  displayConfigfileOnStart: false,
 })
 ```
 
@@ -134,7 +137,7 @@ All options from [`vite-plugin-oxlint`](https://github.com/52-entertainment/vite
 
 | Option | Type | Default | Description |
 |---|---|---|---|
-| `configFile` | `string` | `oxlintrc.json` | Path to the oxlint config file |
+| `configFile` | `string` | — (auto-discovery) | Path to a custom oxlint config file |
 | `path` | `string` | `.` | Directory where oxlint runs |
 | `ignorePattern` | `string \| string[]` | — | Glob patterns to ignore |
 | `allow` | `string[]` | — | Rules/categories to turn off |
@@ -155,7 +158,7 @@ All options from [`vite-plugin-oxlint`](https://github.com/52-entertainment/vite
 
 ```bash
 pnpm remove @nuxt/eslint
-pnpm add -D nuxt-oxlint oxlint
+pnpm add -D @baptistecrouzet/nuxt-oxlint oxlint
 ```
 
 ### 2. Update `nuxt.config.ts`
@@ -164,7 +167,7 @@ pnpm add -D nuxt-oxlint oxlint
   export default defineNuxtConfig({
     modules: [
 -     '@nuxt/eslint',
-+     'nuxt-oxlint',
++     '@baptistecrouzet/nuxt-oxlint',
     ],
 -   eslint: {
 -     checker: true,
@@ -187,7 +190,7 @@ pnpm add -D @nuxt/eslint eslint-plugin-oxlint
 ```ts
 // nuxt.config.ts
 export default defineNuxtConfig({
-  modules: ['@nuxt/eslint', 'nuxt-oxlint'],
+  modules: ['@nuxt/eslint', '@baptistecrouzet/nuxt-oxlint'],
   eslint: { checker: true },
   oxlint: { checker: true },
 })
