@@ -1,8 +1,7 @@
 import { defineNuxtModule, addVitePlugin, useLogger } from '@nuxt/kit';
 import type oxlintPlugin from 'vite-plugin-oxlint';
 
-import { promises } from 'node:fs';
-import { join } from 'node:path';
+import { findConfigFile } from './config-file';
 
 export type CheckerOptions = NonNullable<Parameters<typeof oxlintPlugin>[0]>;
 
@@ -18,7 +17,7 @@ export interface ModuleOptions {
   checker?: boolean | CheckerOptions;
   /**
    * Display the path to the oxlint config file in the terminal when the dev server starts.
-   * Attempts to find common config file names in the project root directory.
+   * Follows the same lookup as `vite-plugin-oxlint`: `configFile`, a legacy `oxlintrc.json`, then oxlint's own discovery.
    * This can help confirm that the correct config file is being used.
    * @see findConfigFile function for the list of config file names that are checked.
    * @default false
@@ -51,7 +50,7 @@ export default defineNuxtModule<ModuleOptions>({
     const checkerOptions: CheckerOptions = typeof options.checker === 'object' ? options.checker : {};
 
     if (options.displayConfigfileOnStart) {
-      await logConfigFilePath(logger, checkerOptions.configFile || null, nuxt.options.rootDir);
+      await logConfigFilePath(logger, checkerOptions);
     }
 
     const vitePluginOxlint = await import('vite-plugin-oxlint').then(
@@ -63,46 +62,21 @@ export default defineNuxtModule<ModuleOptions>({
 });
 
 /**
- * Finds the oxlint config file in the project root directory.
- * @param rootDir The root directory of the project.
- * @returns The path to the oxlint config file, or null if not found.
- */
-async function findConfigFile(rootDir: string): Promise<string | null> {
-  const configFiles = ['.oxlintrc', '.oxlintrc.json', '.oxlintrc.js', 'oxlint.config.js', 'config/oxlint.config.js'];
-
-  return new Promise((resolve) => {
-    for (const fileName of configFiles) {
-      const filePath = join(rootDir, fileName);
-      promises
-        .access(filePath)
-        .then(() => {
-          resolve(filePath);
-        })
-        .catch(() => {
-          // File does not exist, continue to the next one
-        });
-    }
-    resolve(null);
-  });
-}
-
-/**
- * Logs the path to the oxlint config file if found, or a warning if not found.
+ * Logs the path to the oxlint config file `vite-plugin-oxlint` will use, or that oxlint defaults apply.
  *
  * @param logger The logger instance to use for logging.
- * @param filePath The path to the oxlint config file, or null if not found.
- * @param rootDir The root directory of the project (used for logging context).
+ * @param checkerOptions The checker options forwarded to `vite-plugin-oxlint`.
  */
-async function logConfigFilePath(logger: ReturnType<typeof useLogger>, filePath: string | null, rootDir: string): Promise<void> {
-  try {
-    const configFilePath = await findConfigFile(rootDir);
-    if (configFilePath) {
-      logger.info(`Using oxlint config file: ${configFilePath}`);
-    } else {
-      logger.info('No oxlint config file found in the project root.');
-      logger.info(`Using oxlint defaults. You can create a config file in the project root to customize the behavior.`);
-    }
-  } catch (error) {
-    logger.error('Error finding oxlint config file:', error);
+async function logConfigFilePath(logger: ReturnType<typeof useLogger>, checkerOptions: CheckerOptions): Promise<void> {
+  const configFilePath = await findConfigFile({
+    cwd: process.cwd(),
+    configFile: checkerOptions.configFile,
+    path: checkerOptions.path,
+  });
+  if (configFilePath) {
+    logger.info(`Using oxlint config file: ${configFilePath}`);
+  } else {
+    logger.info('No oxlint config file found.');
+    logger.info(`Using oxlint defaults. You can create a config file in the project root to customize the behavior.`);
   }
 }

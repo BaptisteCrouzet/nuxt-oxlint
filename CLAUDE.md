@@ -12,10 +12,12 @@ Published to both npm and GitHub Packages under the `@baptistecrouzet` scope.
 
 | Path | Role |
 | --- | --- |
-| `src/module.ts` | The whole module: options, config-file lookup, Vite plugin registration |
+| `src/module.ts` | The module: options, guards, Vite plugin registration |
+| `src/config-file.ts` | Config-file lookup used by `displayConfigfileOnStart`, mirrors `vite-plugin-oxlint` |
 | `src/runtime/plugin.ts` | Intentionally empty — there is no runtime plugin |
 | `playground/` | Nuxt app for manual testing, imports `src/module` directly |
 | `test/basic.test.ts` | Vitest + `@nuxt/test-utils` e2e test |
+| `test/config-file.test.ts` | Unit tests for the config-file lookup |
 | `test/fixtures/basic/` | Minimal Nuxt app, imports `src/module` directly |
 | `app/`, `nuxt.config.ts` | Root Nuxt shell, not part of the published package |
 | `docs/screenshots/` | README assets |
@@ -87,5 +89,5 @@ Do not widen the rule set to get a cleanup in — an added category is its own c
 ## Gotchas
 
 - The default branch is `master`, but `.github/workflows/ci.yml` triggers on `main` — CI will not run on PRs targeting `master` until that is fixed.
-- `findConfigFile` in `src/module.ts` resolves its promise from parallel `access()` callbacks; the `resolve(null)` at the end wins the race. Touching this function means fixing that logic, so verify the behaviour you expect with a test.
+- `findConfigFile` must keep matching what `vite-plugin-oxlint` and oxlint actually do: explicit `configFile` or legacy `oxlintrc.json` resolved against `process.cwd()`, then `.oxlintrc.json`, `.oxlintrc.jsonc` or `oxlint.config.ts` in the `path` directory. Re-check against the installed versions and update `test/config-file.test.ts` when bumping either.
 - Do not add `nuxt-oxlint` (unscoped) anywhere: that npm name belongs to an unrelated package. The module is `@baptistecrouzet/nuxt-oxlint`; the playground and the test fixture both import `src/module` directly.
